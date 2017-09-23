@@ -58,6 +58,6 @@ public class MoriButton : MonoBehaviour
 
 	public void OnEndDrag(PointerEventData eventData)
 	{
-
+        gyudonInstance.GetComponent<Rigidbody2D>().AddForce(eventData.delta, ForceMode2D.Impulse);
 	}
 }

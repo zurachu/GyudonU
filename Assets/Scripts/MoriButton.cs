@@ -19,6 +19,8 @@ public class MoriButton : MonoBehaviour
 	private GameObject gyudonPrefab;
 	private GameObject gyudonInstance;
 
+    private const float flickSpeedRate = 5;
+
 	// Use this for initialization
 	void Start () {
 		canvas = GameObject.Find("Canvas");
@@ -58,6 +60,6 @@ public class MoriButton : MonoBehaviour
 
 	public void OnEndDrag(PointerEventData eventData)
 	{
-        gyudonInstance.GetComponent<Rigidbody2D>().AddForce(eventData.delta, ForceMode2D.Impulse);
+        gyudonInstance.GetComponent<Rigidbody2D>().AddForce(eventData.delta.normalized * flickSpeedRate, ForceMode2D.Impulse);
 	}
 }

@@ -7,8 +7,6 @@ public class GameController : MonoBehaviour {
 	private GameObject canvas;
 	private GameObject customerPrefab;
 
-	private const float flickSpeedRate = 5;
-
 	// Use this for initialization
 	void Start()
 	{

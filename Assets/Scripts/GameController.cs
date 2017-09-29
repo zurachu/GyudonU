@@ -6,16 +6,16 @@ public class GameController : MonoBehaviour {
 
     private const int NumChair = 6;
 
-	private GameObject canvas;
-	private GameObject customerPrefab;
+	public GameObject canvas;
+	public GameObject customerPrefab;
+
     private GameObject[] customer = new GameObject[NumChair];
 
 	// Use this for initialization
 	void Start()
 	{
-		canvas = GameObject.Find("Canvas");
-		customerPrefab = Resources.Load<GameObject>("Prefabs/Customer");
-	}
+    
+    }
 
 	// Update is called once per frame
 	void Update()

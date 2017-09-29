@@ -11,6 +11,12 @@ public class Gyudon : MonoBehaviour {
 		Tokumori,
 	};
 
+    static public MoriSize RandomMoriSize()
+    {
+        var numMoriSize = System.Enum.GetValues(typeof(MoriSize)).Length;
+        return (MoriSize)System.Enum.ToObject(typeof(MoriSize), Random.Range(0, numMoriSize));
+    }
+
     // Use this for initialization
 	void Start () {
 		

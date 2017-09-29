@@ -4,7 +4,14 @@ using UnityEngine;
 
 public class Gyudon : MonoBehaviour {
 
-	// Use this for initialization
+	public enum MoriSize
+	{
+		Namimori,
+		Oomori,
+		Tokumori,
+	};
+
+    // Use this for initialization
 	void Start () {
 		
 	}

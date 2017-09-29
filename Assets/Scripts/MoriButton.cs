@@ -7,13 +7,7 @@ public class MoriButton : MonoBehaviour
 	, IPointerDownHandler
 	, IBeginDragHandler, IDragHandler, IEndDragHandler {
 
-	public enum MoriSize
-	{
-		Namimori,
-		Oomori,
-		Tokumori,
-	};
-	public MoriSize moriSize;
+	public Gyudon.MoriSize moriSize;
 
 	private GameObject canvas;
 	private GameObject gyudonPrefab;

@@ -1,20 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class GameController : MonoBehaviour {
 
     private const int NumChair = 6;
 
 	public GameObject canvas;
+    public GameObject popularityGauge;
 	public GameObject customerPrefab;
 
     private GameObject[] customer = new GameObject[NumChair];
+    public float popularityMax;
+    public float popularity;
 
 	// Use this for initialization
 	void Start()
 	{
-    
+        Assert.IsTrue(0 < popularity && popularity <= popularityMax);
+        UpdatePopularity();
     }
 
 	// Update is called once per frame
@@ -39,6 +44,26 @@ public class GameController : MonoBehaviour {
         position.x += width * index;
         rect.transform.position = position;
 		instance.transform.SetParent(canvas.transform, false);
-        customer[index] = instance;
+        instance.GetComponent<Customer>().ResultCallback += (diffSales, diffPopularity) =>
+        {
+            popularity += diffPopularity;
+            if (popularity <= 0)
+            {
+                popularity = 0;
+                // @todo ゲームオーバー処理
+            }
+            else if (popularityMax < popularity)
+            {
+                popularity = popularityMax;
+            }
+            UpdatePopularity();
+        };
+		customer[index] = instance;
 	}
+
+    private void UpdatePopularity()
+    {
+        var popularityGaugeScale = new Vector3(popularity / popularityMax, 1, 1);
+        popularityGauge.GetComponent<RectTransform>().localScale = popularityGaugeScale;
+    }
 }

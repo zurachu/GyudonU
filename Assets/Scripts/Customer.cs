@@ -5,6 +5,11 @@ using UnityEngine.UI;
 
 public class Customer : MonoBehaviour
 {
+    private enum Result
+    {
+        Happy,
+        Angry,
+    };
 
     private Image fukidashi;
     private GameObject timeGaugeBase;
@@ -17,6 +22,8 @@ public class Customer : MonoBehaviour
 
     private float time;
     private Gyudon.MoriSize moriSize;
+
+	public event System.Action<int, float> ResultCallback = delegate { };
 
 	// Use this for initialization
 	void Start () {
@@ -37,7 +44,7 @@ public class Customer : MonoBehaviour
             time -= Time.deltaTime;
             if (time <= 0)
             {
-                StartCoroutine(SetResult());
+                StartCoroutine(SetResult(Result.Angry));
             }
             else
             {
@@ -47,10 +54,12 @@ public class Customer : MonoBehaviour
         }
 	}
 
-    private IEnumerator SetResult()
+    private IEnumerator SetResult(Result result)
     {
-		// @todo 吹き出し内容変更
-		// @todo 評判と売り上げ反映（GameController にコールバックを想定）
+        // @todo 吹き出し内容変更
+        int sales = (result == Result.Happy) ? 29 : 0;
+        float popularity = (result == Result.Happy) ? 1 : -1;
+        ResultCallback(sales, popularity);
 		timeGaugeBase.SetActive(false);
 		yield return new WaitForSeconds(1);
 		Destroy(gameObject);

@@ -14,6 +14,8 @@ public class Customer : MonoBehaviour
     private Image fukidashi;
     private GameObject timeGaugeBase;
     private GameObject timeGauge;
+	private GameObject happyFaceMark;
+	private GameObject angryFaceMark;
 
     public Sprite namimoriFukidashi;
     public Sprite oomoriFukidashi;
@@ -30,6 +32,8 @@ public class Customer : MonoBehaviour
         fukidashi = transform.Find("Fukidashi").GetComponent<Image>();
 		timeGaugeBase = transform.Find("TimeBase").gameObject;
         timeGauge = timeGaugeBase.transform.Find("Time").gameObject;
+		happyFaceMark = transform.Find("HappyFaceMark").gameObject;
+		angryFaceMark = transform.Find("AngryFaceMark").gameObject;
 		time = timeMax;
         moriSize = Gyudon.RandomMoriSize();
         Sprite[] fukidashiSprite = new Sprite[] {
@@ -56,9 +60,19 @@ public class Customer : MonoBehaviour
 
     private IEnumerator SetResult(Result result)
     {
-        // @todo 吹き出し内容変更
-        int sales = (result == Result.Happy) ? Gyudon.PriceOf(moriSize) : 0;
-        float popularity = (result == Result.Happy) ? 1 : -1;
+        int sales = 0;
+        float popularity = 0;
+        if (result == Result.Happy)
+        {
+            happyFaceMark.SetActive(true);
+			sales = Gyudon.PriceOf(moriSize);
+			popularity = 1;
+		}
+        else
+		{
+			angryFaceMark.SetActive(true);
+			popularity = -1;
+		}
         ResultCallback(sales, popularity);
 		timeGaugeBase.SetActive(false);
 		yield return new WaitForSeconds(1);

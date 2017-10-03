@@ -57,7 +57,7 @@ public class Customer : MonoBehaviour
     private IEnumerator SetResult(Result result)
     {
         // @todo 吹き出し内容変更
-        int sales = (result == Result.Happy) ? 29 : 0;
+        int sales = (result == Result.Happy) ? Gyudon.PriceOf(moriSize) : 0;
         float popularity = (result == Result.Happy) ? 1 : -1;
         ResultCallback(sales, popularity);
 		timeGaugeBase.SetActive(false);

@@ -17,6 +17,20 @@ public class Gyudon : MonoBehaviour {
         return (MoriSize)System.Enum.ToObject(typeof(MoriSize), Random.Range(0, numMoriSize));
     }
 
+    static public int PriceOf(MoriSize size)
+    {
+        switch(size)
+        {
+            case MoriSize.Namimori:
+                return 29;
+            case MoriSize.Oomori:
+                return 39;
+            case MoriSize.Tokumori:
+                return 49;
+        }
+        throw new System.ArgumentOutOfRangeException();
+    }
+
     // Use this for initialization
 	void Start () {
 		

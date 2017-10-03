@@ -10,14 +10,17 @@ public class GameController : MonoBehaviour {
 	public GameObject canvas;
     public GameObject popularityGauge;
 	public GameObject customerPrefab;
+    public UnityEngine.UI.Text salesLabel;
 
     private GameObject[] customer = new GameObject[NumChair];
+    private int sales = 0;
     public float popularityMax;
     public float popularity;
 
 	// Use this for initialization
 	void Start()
 	{
+        UpdateSales();
         Assert.IsTrue(0 < popularity && popularity <= popularityMax);
         UpdatePopularity();
     }
@@ -46,6 +49,8 @@ public class GameController : MonoBehaviour {
 		instance.transform.SetParent(canvas.transform, false);
         instance.GetComponent<Customer>().ResultCallback += (diffSales, diffPopularity) =>
         {
+            sales += diffSales;
+            UpdateSales();
             popularity += diffPopularity;
             if (popularity <= 0)
             {
@@ -59,6 +64,11 @@ public class GameController : MonoBehaviour {
             UpdatePopularity();
         };
 		customer[index] = instance;
+	}
+
+    private void UpdateSales()
+    {
+		salesLabel.text = sales.ToString() + " G$";
 	}
 
     private void UpdatePopularity()

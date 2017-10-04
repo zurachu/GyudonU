@@ -47,7 +47,9 @@ public class GameController : MonoBehaviour {
         position.x += width * index;
         rect.transform.position = position;
 		instance.transform.SetParent(canvas.transform, false);
-        instance.GetComponent<Customer>().ResultCallback += (diffSales, diffPopularity) =>
+        var customerScript = instance.GetComponent<Customer>();
+        customerScript.SetType(Customer.RandomType());
+        customerScript.ResultCallback += (diffSales, diffPopularity) =>
         {
             sales += diffSales;
             UpdateSales();

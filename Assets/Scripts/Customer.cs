@@ -5,7 +5,24 @@ using UnityEngine.UI;
 
 public class Customer : MonoBehaviour
 {
-    private enum Result
+    public enum Type
+    {
+        Cowbell,
+        JA,
+        Kenta,
+        Daioh,
+        Mai,
+        Gorem,
+        Chris,
+    };
+
+	static public Type RandomType()
+	{
+		var numTypes = System.Enum.GetValues(typeof(Type)).Length;
+		return (Type)System.Enum.ToObject(typeof(Type), Random.Range(0, numTypes));
+	}
+
+	private enum Result
     {
         Happy,
         Angry,
@@ -20,6 +37,7 @@ public class Customer : MonoBehaviour
     public Sprite namimoriFukidashi;
     public Sprite oomoriFukidashi;
     public Sprite tokumoriFukidashi;
+    public Sprite[] customerSprite = new Sprite[System.Enum.GetValues(typeof(Type)).Length];
     public float timeMax;
 
     private float time;
@@ -57,6 +75,11 @@ public class Customer : MonoBehaviour
             }
         }
 	}
+
+    public void SetType(Type type)
+    {
+        GetComponent<Image>().sprite = customerSprite[(int)type];
+    }
 
     public void Receive(Gyudon.MoriSize size)
     {

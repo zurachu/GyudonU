@@ -13,7 +13,7 @@ public class MoriButton : MonoBehaviour
 	private GameObject gyudonPrefab;
 	private GameObject gyudonInstance;
 
-    private const float flickSpeedRate = 5;
+    private const float flickSpeedRate = 10;
 
 	// Use this for initialization
 	void Start () {

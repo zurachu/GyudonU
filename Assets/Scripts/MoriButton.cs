@@ -60,7 +60,12 @@ public class MoriButton : MonoBehaviour
 	{
         if (gyudonInstance)
         {
-            gyudonInstance.GetComponent<Rigidbody2D>().AddForce(eventData.delta.normalized * flickSpeedRate, ForceMode2D.Impulse);
-        }
+            var rigidBody = gyudonInstance.GetComponent<Rigidbody2D>();
+            rigidBody.AddForce(eventData.delta.normalized * flickSpeedRate, ForceMode2D.Impulse);
+            if (rigidBody.velocity.magnitude < 1)
+			{
+                Destroy(gyudonInstance);
+			}
+		}
 	}
 }

@@ -31,6 +31,8 @@ public class Gyudon : MonoBehaviour {
         throw new System.ArgumentOutOfRangeException();
     }
 
+    public MoriSize moriSize;
+
     // Use this for initialization
 	void Start () {
 		
@@ -39,6 +41,15 @@ public class Gyudon : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
+	}
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+		if (collision.tag == "Customer")
+		{
+			collision.GetComponent<Customer>().Receive(moriSize);
+            Destroy(gameObject);
+		}
 	}
 
     private void OnTriggerExit2D(Collider2D collision)

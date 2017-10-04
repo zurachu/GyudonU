@@ -58,6 +58,12 @@ public class Customer : MonoBehaviour
         }
 	}
 
+    public void Receive(Gyudon.MoriSize size)
+    {
+        StartCoroutine(SetResult((size == moriSize) ? Result.Happy : Result.Angry));
+        GetComponent<Collider2D>().enabled = false;
+    }
+
     private IEnumerator SetResult(Result result)
     {
         int sales = 0;

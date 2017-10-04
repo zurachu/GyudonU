@@ -39,6 +39,7 @@ public class MoriButton : MonoBehaviour
 	public void OnPointerDown(PointerEventData eventData)
 	{
 		gyudonInstance = Instantiate(gyudonPrefab);
+        gyudonInstance.GetComponent<Gyudon>().moriSize = moriSize;
 		SetGyudonPosition(eventData);
 	}
 
@@ -49,11 +50,17 @@ public class MoriButton : MonoBehaviour
 
 	public void OnDrag(PointerEventData eventData)
 	{
-		SetGyudonPosition(eventData);
+        if (gyudonInstance)
+        {
+            SetGyudonPosition(eventData);
+        }
 	}
 
 	public void OnEndDrag(PointerEventData eventData)
 	{
-        gyudonInstance.GetComponent<Rigidbody2D>().AddForce(eventData.delta.normalized * flickSpeedRate, ForceMode2D.Impulse);
+        if (gyudonInstance)
+        {
+            gyudonInstance.GetComponent<Rigidbody2D>().AddForce(eventData.delta.normalized * flickSpeedRate, ForceMode2D.Impulse);
+        }
 	}
 }

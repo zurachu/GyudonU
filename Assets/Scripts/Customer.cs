@@ -33,6 +33,7 @@ public class Customer : MonoBehaviour
     private GameObject timeGauge;
 	private GameObject happyFaceMark;
 	private GameObject angryFaceMark;
+    private GameObject particle;
 
     public Sprite namimoriFukidashi;
     public Sprite oomoriFukidashi;
@@ -52,6 +53,7 @@ public class Customer : MonoBehaviour
         timeGauge = timeGaugeBase.transform.Find("Time").gameObject;
 		happyFaceMark = transform.Find("HappyFaceMark").gameObject;
 		angryFaceMark = transform.Find("AngryFaceMark").gameObject;
+        particle = transform.Find("Particle System").gameObject;
 		time = timeMax;
         moriSize = Gyudon.RandomMoriSize();
         Sprite[] fukidashiSprite = new Sprite[] {
@@ -94,6 +96,7 @@ public class Customer : MonoBehaviour
         if (result == Result.Happy)
         {
             happyFaceMark.SetActive(true);
+            particle.SetActive(true);
 			sales = Gyudon.PriceOf(moriSize);
 			popularity = 1;
 		}

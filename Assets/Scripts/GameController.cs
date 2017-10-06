@@ -8,7 +8,8 @@ public class GameController : MonoBehaviour {
     private const int NumChair = 6;
 
 	public GameObject canvas;
-    public GameObject popularityGauge;
+	public Clerk clerk;
+	public GameObject popularityGauge;
 	public GameObject customerPrefab;
     public UnityEngine.UI.Text salesLabel;
 
@@ -57,6 +58,7 @@ public class GameController : MonoBehaviour {
             if (popularity <= 0)
             {
                 popularity = 0;
+                clerk.OnGameOver();
                 // @todo ゲームオーバー処理
             }
             else if (popularityMax < popularity)

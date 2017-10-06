@@ -25,7 +25,7 @@ public class GameController : MonoBehaviour {
 	{
         UpdateSales();
         Assert.IsTrue(0 < popularity && popularity <= popularityMax);
-        UpdatePopularity();
+        SetPopularityGauge(popularity);
     }
 
 	// Update is called once per frame
@@ -39,6 +39,7 @@ public class GameController : MonoBehaviour {
 				AddCustomer(index);
 			}
         }
+        UpdatePopularityGauge();
 	}
 
     private void AddCustomer(int index)
@@ -74,7 +75,6 @@ public class GameController : MonoBehaviour {
             {
                 popularity = popularityMax;
             }
-            UpdatePopularity();
         };
 		customer[index] = instance;
 	}
@@ -84,9 +84,20 @@ public class GameController : MonoBehaviour {
 		salesLabel.text = sales.ToString() + " G$";
 	}
 
-    private void UpdatePopularity()
+    private void SetPopularityGauge(float value)
     {
-        var popularityGaugeScale = new Vector3(popularity / popularityMax, 1, 1);
-        popularityGauge.GetComponent<RectTransform>().localScale = popularityGaugeScale;
+		var popularityGaugeScale = new Vector3(value / popularityMax, 1, 1);
+		popularityGauge.GetComponent<RectTransform>().localScale = popularityGaugeScale;
+	}
+
+    private void UpdatePopularityGauge()
+    {
+        var current = popularityGauge.GetComponent<RectTransform>().localScale.x * popularityMax;
+        var next = (current * 3 + popularity) / 4;
+        if (Mathf.Abs(next - popularity) < 1)
+        {
+            next = popularity;
+        }
+        SetPopularityGauge(next);
     }
 }

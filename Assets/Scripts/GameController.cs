@@ -17,8 +17,10 @@ public class GameController : MonoBehaviour {
     private int sales = 0;
     public float popularityMax;
     public float popularity;
+	public float popularityUpRate;
+	public float popularityDownRate;
 
-	// Use this for initialization
+    // Use this for initialization
 	void Start()
 	{
         UpdateSales();
@@ -54,7 +56,14 @@ public class GameController : MonoBehaviour {
         {
             sales += diffSales;
             UpdateSales();
-            popularity += diffPopularity;
+            if (diffPopularity > 0)
+            {
+                popularity += diffPopularity * popularityUpRate;
+			}
+            else
+            {
+                popularity += diffPopularity * popularityDownRate;
+			}
             if (popularity <= 0)
             {
                 popularity = 0;

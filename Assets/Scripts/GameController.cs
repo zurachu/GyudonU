@@ -88,6 +88,7 @@ public class GameController : MonoBehaviour {
     {
 		var popularityGaugeScale = new Vector3(value / popularityMax, 1, 1);
 		popularityGauge.GetComponent<RectTransform>().localScale = popularityGaugeScale;
+		popularityGauge.GetComponent<GaugeMeshEffect>().Refresh();
 	}
 
     private void UpdatePopularityGauge()

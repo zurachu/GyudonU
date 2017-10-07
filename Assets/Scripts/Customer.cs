@@ -74,6 +74,7 @@ public class Customer : MonoBehaviour
             {
                 var timeGaugeScale = new Vector3(time / timeMax, 1, 1);
                 timeGauge.GetComponent<RectTransform>().localScale = timeGaugeScale;
+                timeGauge.GetComponent<GaugeMeshEffect>().Refresh();
             }
         }
 	}

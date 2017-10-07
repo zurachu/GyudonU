@@ -105,6 +105,7 @@ public class Customer : MonoBehaviour
 			angryFaceMark.SetActive(true);
 			popularity = -1;
 		}
+        fukidashi.enabled = false;
         ResultCallback(sales, popularity);
 		timeGaugeBase.SetActive(false);
 		yield return new WaitForSeconds(1);

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class MoriButton : MonoBehaviour
-	, IPointerDownHandler
+    , IPointerDownHandler, IPointerUpHandler
 	, IBeginDragHandler, IDragHandler, IEndDragHandler {
 
 	public Gyudon.MoriSize moriSize;
@@ -43,6 +43,19 @@ public class MoriButton : MonoBehaviour
 		SetGyudonPosition(eventData);
 	}
 
+    public void OnPointerUp(PointerEventData eventData)
+    {
+		if (gyudonInstance)
+		{
+			var rigidBody = gyudonInstance.GetComponent<Rigidbody2D>();
+			rigidBody.AddForce(eventData.delta.normalized * flickSpeedRate, ForceMode2D.Impulse);
+			if (rigidBody.velocity.magnitude < 1)
+			{
+				Destroy(gyudonInstance);
+			}
+		}
+	}
+
 	public void OnBeginDrag(PointerEventData eventData)
 	{
 		Debug.Log(eventData.position);
@@ -58,14 +71,5 @@ public class MoriButton : MonoBehaviour
 
 	public void OnEndDrag(PointerEventData eventData)
 	{
-        if (gyudonInstance)
-        {
-            var rigidBody = gyudonInstance.GetComponent<Rigidbody2D>();
-            rigidBody.AddForce(eventData.delta.normalized * flickSpeedRate, ForceMode2D.Impulse);
-            if (rigidBody.velocity.magnitude < 1)
-			{
-                Destroy(gyudonInstance);
-			}
-		}
 	}
 }

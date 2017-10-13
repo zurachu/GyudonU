@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gyudon : MonoBehaviour {
+public class Gyudon : MonoBehaviour
+{
 
-	public enum MoriSize
-	{
-		Namimori,
-		Oomori,
-		Tokumori,
-	};
+    public enum MoriSize
+    {
+        Namimori,
+        Oomori,
+        Tokumori,
+    };
 
     static public MoriSize RandomMoriSize()
     {
@@ -19,7 +20,7 @@ public class Gyudon : MonoBehaviour {
 
     static public int PriceOf(MoriSize size)
     {
-        switch(size)
+        switch (size)
         {
             case MoriSize.Namimori:
                 return 29;
@@ -34,27 +35,29 @@ public class Gyudon : MonoBehaviour {
     public MoriSize moriSize;
 
     // Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-		if (collision.tag == "Customer")
-		{
-			collision.GetComponent<Customer>().Receive(moriSize);
+        if (collision.tag == "Customer")
+        {
+            collision.GetComponent<Customer>().Receive(moriSize);
             Destroy(gameObject);
-		}
-	}
+        }
+    }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if(collision.tag == "GyudonArea")
+        if (collision.tag == "GyudonArea")
         {
             Destroy(gameObject);
         }

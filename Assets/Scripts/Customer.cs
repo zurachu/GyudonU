@@ -16,13 +16,13 @@ public class Customer : MonoBehaviour
         Chris,
     };
 
-	static public Type RandomType()
-	{
-		var numTypes = System.Enum.GetValues(typeof(Type)).Length;
-		return (Type)System.Enum.ToObject(typeof(Type), Random.Range(0, numTypes));
-	}
+    static public Type RandomType()
+    {
+        var numTypes = System.Enum.GetValues(typeof(Type)).Length;
+        return (Type)System.Enum.ToObject(typeof(Type), Random.Range(0, numTypes));
+    }
 
-	private enum Result
+    private enum Result
     {
         Happy,
         Angry,
@@ -31,8 +31,8 @@ public class Customer : MonoBehaviour
     private Image fukidashi;
     private GameObject timeGaugeBase;
     private GameObject timeGauge;
-	private GameObject happyFaceMark;
-	private GameObject angryFaceMark;
+    private GameObject happyFaceMark;
+    private GameObject angryFaceMark;
     private GameObject particle;
 
     public Sprite namimoriFukidashi;
@@ -44,25 +44,27 @@ public class Customer : MonoBehaviour
     private float time;
     private Gyudon.MoriSize moriSize;
 
-	public event System.Action<int, float> ResultCallback = delegate { };
+    public event System.Action<int, float> ResultCallback = delegate { };
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         fukidashi = transform.Find("Fukidashi").GetComponent<Image>();
-		timeGaugeBase = transform.Find("TimeBase").gameObject;
+        timeGaugeBase = transform.Find("TimeBase").gameObject;
         timeGauge = timeGaugeBase.transform.Find("Time").gameObject;
-		happyFaceMark = transform.Find("HappyFaceMark").gameObject;
-		angryFaceMark = transform.Find("AngryFaceMark").gameObject;
+        happyFaceMark = transform.Find("HappyFaceMark").gameObject;
+        angryFaceMark = transform.Find("AngryFaceMark").gameObject;
         particle = transform.Find("Particle System").gameObject;
-		time = timeMax;
+        time = timeMax;
         moriSize = Gyudon.RandomMoriSize();
         Sprite[] fukidashiSprite = new Sprite[] {
             namimoriFukidashi, oomoriFukidashi, tokumoriFukidashi};
         fukidashi.sprite = fukidashiSprite[(int)moriSize];
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
         if (timeGaugeBase.activeSelf)
         {
             time -= Time.deltaTime;
@@ -77,7 +79,7 @@ public class Customer : MonoBehaviour
                 timeGauge.GetComponent<GaugeMeshEffect>().Refresh();
             }
         }
-	}
+    }
 
     public void SetType(Type type)
     {
@@ -98,18 +100,18 @@ public class Customer : MonoBehaviour
         {
             happyFaceMark.SetActive(true);
             particle.SetActive(true);
-			sales = Gyudon.PriceOf(moriSize);
-			popularity = 1;
-		}
+            sales = Gyudon.PriceOf(moriSize);
+            popularity = 1;
+        }
         else
-		{
-			angryFaceMark.SetActive(true);
-			popularity = -1;
-		}
+        {
+            angryFaceMark.SetActive(true);
+            popularity = -1;
+        }
         fukidashi.enabled = false;
         ResultCallback(sales, popularity);
-		timeGaugeBase.SetActive(false);
-		yield return new WaitForSeconds(1);
-		Destroy(gameObject);
-	}
+        timeGaugeBase.SetActive(false);
+        yield return new WaitForSeconds(1);
+        Destroy(gameObject);
+    }
 }

@@ -3,54 +3,55 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class GameController : MonoBehaviour {
+public class GameController : MonoBehaviour
+{
 
     private const int NumChair = 6;
 
-	public GameObject canvas;
-	public Clerk clerk;
-	public GameObject popularityGauge;
-	public GameObject customerPrefab;
+    public GameObject canvas;
+    public Clerk clerk;
+    public GameObject popularityGauge;
+    public GameObject customerPrefab;
     public UnityEngine.UI.Text salesLabel;
 
     private GameObject[] customer = new GameObject[NumChair];
     private int sales = 0;
     public float popularityMax;
     public float popularity;
-	public float popularityUpRate;
-	public float popularityDownRate;
+    public float popularityUpRate;
+    public float popularityDownRate;
 
     // Use this for initialization
-	void Start()
-	{
+    void Start()
+    {
         UpdateSales();
         Assert.IsTrue(0 < popularity && popularity <= popularityMax);
         SetPopularityGauge(popularity);
     }
 
-	// Update is called once per frame
-	void Update()
-	{
-        if(Random.Range(0, 2000) < 100)
+    // Update is called once per frame
+    void Update()
+    {
+        if (Random.Range(0, 2000) < 100)
         {
             int index = Random.Range(0, NumChair);
             if (!customer[index])
             {
-				AddCustomer(index);
-			}
+                AddCustomer(index);
+            }
         }
         UpdatePopularityGauge();
-	}
+    }
 
     private void AddCustomer(int index)
     {
-		var instance = Instantiate(customerPrefab);
+        var instance = Instantiate(customerPrefab);
         var rect = instance.GetComponent<RectTransform>();
         var position = rect.transform.position;
         var width = rect.sizeDelta.x;
         position.x += width * index;
         rect.transform.position = position;
-		instance.transform.SetParent(canvas.transform, false);
+        instance.transform.SetParent(canvas.transform, false);
         var customerScript = instance.GetComponent<Customer>();
         customerScript.SetType(Customer.RandomType());
         customerScript.ResultCallback += (diffSales, diffPopularity) =>
@@ -60,11 +61,11 @@ public class GameController : MonoBehaviour {
             if (diffPopularity > 0)
             {
                 popularity += diffPopularity * popularityUpRate;
-			}
+            }
             else
             {
                 popularity += diffPopularity * popularityDownRate;
-			}
+            }
             if (popularity <= 0)
             {
                 popularity = 0;
@@ -76,20 +77,20 @@ public class GameController : MonoBehaviour {
                 popularity = popularityMax;
             }
         };
-		customer[index] = instance;
-	}
+        customer[index] = instance;
+    }
 
     private void UpdateSales()
     {
-		salesLabel.text = sales.ToString() + " G$";
-	}
+        salesLabel.text = sales.ToString() + " G$";
+    }
 
     private void SetPopularityGauge(float value)
     {
-		var popularityGaugeScale = new Vector3(value / popularityMax, 1, 1);
-		popularityGauge.GetComponent<RectTransform>().localScale = popularityGaugeScale;
-		popularityGauge.GetComponent<GaugeMeshEffect>().Refresh();
-	}
+        var popularityGaugeScale = new Vector3(value / popularityMax, 1, 1);
+        popularityGauge.GetComponent<RectTransform>().localScale = popularityGaugeScale;
+        popularityGauge.GetComponent<GaugeMeshEffect>().Refresh();
+    }
 
     private void UpdatePopularityGauge()
     {

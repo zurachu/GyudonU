@@ -5,71 +5,74 @@ using UnityEngine.EventSystems;
 
 public class MoriButton : MonoBehaviour
     , IPointerDownHandler, IPointerUpHandler
-	, IBeginDragHandler, IDragHandler, IEndDragHandler {
+    , IBeginDragHandler, IDragHandler, IEndDragHandler
+{
 
-	public Gyudon.MoriSize moriSize;
+    public Gyudon.MoriSize moriSize;
 
-	private GameObject canvas;
-	private GameObject gyudonPrefab;
-	private GameObject gyudonInstance;
+    private GameObject canvas;
+    private GameObject gyudonPrefab;
+    private GameObject gyudonInstance;
 
     private const float flickSpeedRate = 10;
 
-	// Use this for initialization
-	void Start () {
-		canvas = GameObject.Find("Canvas");
-		gyudonPrefab = Resources.Load<GameObject>("Prefabs/Gyudon");
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    // Use this for initialization
+    void Start()
+    {
+        canvas = GameObject.Find("Canvas");
+        gyudonPrefab = Resources.Load<GameObject>("Prefabs/Gyudon");
+    }
 
-	private void SetGyudonPosition(PointerEventData eventData)
-	{
-		gyudonInstance.transform.SetParent(canvas.transform.parent, false);
-		Vector2 localPosition = Vector2.zero;
-		RectTransformUtility.ScreenPointToLocalPointInRectangle(
-			canvas.GetComponent<RectTransform>(), eventData.position, Camera.main, out localPosition);
-		gyudonInstance.GetComponent<RectTransform>().position = localPosition;
-		gyudonInstance.transform.SetParent(canvas.transform, false);
-	}
+    // Update is called once per frame
+    void Update()
+    {
 
-	public void OnPointerDown(PointerEventData eventData)
-	{
-		gyudonInstance = Instantiate(gyudonPrefab);
+    }
+
+    private void SetGyudonPosition(PointerEventData eventData)
+    {
+        gyudonInstance.transform.SetParent(canvas.transform.parent, false);
+        Vector2 localPosition = Vector2.zero;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            canvas.GetComponent<RectTransform>(), eventData.position, Camera.main, out localPosition);
+        gyudonInstance.GetComponent<RectTransform>().position = localPosition;
+        gyudonInstance.transform.SetParent(canvas.transform, false);
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        gyudonInstance = Instantiate(gyudonPrefab);
         gyudonInstance.GetComponent<Gyudon>().moriSize = moriSize;
-		SetGyudonPosition(eventData);
-	}
+        SetGyudonPosition(eventData);
+    }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-		if (gyudonInstance)
-		{
-			var rigidBody = gyudonInstance.GetComponent<Rigidbody2D>();
-			rigidBody.AddForce(eventData.delta.normalized * flickSpeedRate, ForceMode2D.Impulse);
-			if (rigidBody.velocity.magnitude < 1)
-			{
-				Destroy(gyudonInstance);
-			}
-		}
-	}
+        if (gyudonInstance)
+        {
+            var rigidBody = gyudonInstance.GetComponent<Rigidbody2D>();
+            rigidBody.AddForce(eventData.delta.normalized * flickSpeedRate, ForceMode2D.Impulse);
+            if (rigidBody.velocity.magnitude < 1)
+            {
+                Destroy(gyudonInstance);
+            }
+        }
+    }
 
-	public void OnBeginDrag(PointerEventData eventData)
-	{
-		Debug.Log(eventData.position);
-	}
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        Debug.Log(eventData.position);
+    }
 
-	public void OnDrag(PointerEventData eventData)
-	{
+    public void OnDrag(PointerEventData eventData)
+    {
         if (gyudonInstance)
         {
             SetGyudonPosition(eventData);
         }
-	}
+    }
 
-	public void OnEndDrag(PointerEventData eventData)
-	{
-	}
+    public void OnEndDrag(PointerEventData eventData)
+    {
+    }
 }

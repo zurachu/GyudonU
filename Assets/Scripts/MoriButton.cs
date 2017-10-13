@@ -4,8 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class MoriButton : MonoBehaviour
-    , IPointerDownHandler, IPointerUpHandler
-    , IBeginDragHandler, IDragHandler, IEndDragHandler
+    , IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
 
     public Gyudon.MoriSize moriSize;
@@ -59,20 +58,11 @@ public class MoriButton : MonoBehaviour
         }
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        Debug.Log(eventData.position);
-    }
-
     public void OnDrag(PointerEventData eventData)
     {
         if (gyudonInstance)
         {
             SetGyudonPosition(eventData);
         }
-    }
-
-    public void OnEndDrag(PointerEventData eventData)
-    {
     }
 }

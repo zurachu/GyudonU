@@ -13,6 +13,7 @@ public class GameController : MonoBehaviour
     public GameObject popularityGauge;
     public GameObject customerPrefab;
     public UnityEngine.UI.Text salesLabel;
+    public GameObject blackOutAndChangeScene;
 
     private GameObject[] customer = new GameObject[NumChair];
     private int sales = 0;
@@ -32,7 +33,7 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Random.Range(0, 2000) < 100)
+        if (0 < popularity && Random.Range(0, 2000) < 100)
         {
             int index = Random.Range(0, NumChair);
             var type = Customer.RandomType();
@@ -62,23 +63,26 @@ public class GameController : MonoBehaviour
             customerScript.SetType(type);
             customerScript.ResultCallback += (diffSales, diffPopularity) =>
             {
-                sales += diffSales;
-                UpdateSales();
-                if (diffPopularity > 0)
+                if (0 < popularity)
                 {
-                    popularity += diffPopularity * popularityUpRate;
-                }
-                else
-                {
-                    popularity += diffPopularity * popularityDownRate;
-                }
-                if (popularity <= 0)
-                {
-                    OnGameOver();
-                }
-                else if (popularityMax < popularity)
-                {
-                    popularity = popularityMax;
+                    sales += diffSales;
+                    UpdateSales();
+                    if (diffPopularity > 0)
+                    {
+                        popularity += diffPopularity * popularityUpRate;
+                    }
+                    else
+                    {
+                        popularity += diffPopularity * popularityDownRate;
+                    }
+                    if (popularity <= 0)
+                    {
+                        StartCoroutine(OnGameOver());
+                    }
+                    else if (popularityMax < popularity)
+                    {
+                        popularity = popularityMax;
+                    }
                 }
             };
             customer[index] = instance;
@@ -87,7 +91,7 @@ public class GameController : MonoBehaviour
         return false;
     }
 
-    private void OnGameOver()
+    private IEnumerator OnGameOver()
     {
         popularity = 0;
         clerk.OnGameOver();
@@ -101,6 +105,8 @@ public class GameController : MonoBehaviour
         {
             Destroy(gyudon);
         }
+        yield return new WaitForSeconds(5);
+        blackOutAndChangeScene.SetActive(true);
     }
 
     private void UpdateSales()

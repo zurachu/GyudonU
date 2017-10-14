@@ -35,19 +35,13 @@ public class GameController : MonoBehaviour
         if (Random.Range(0, 2000) < 100)
         {
             int index = Random.Range(0, NumChair);
-            if (!customer[index])
+            var type = Customer.RandomType();
+            AddCustomer(index, type);
+            if (type == Customer.Type.Mai)
             {
-                var type = Customer.RandomType();
-                AddCustomer(index, type);
-                if (type == Customer.Type.Mai)
+                for (int i = 0; i < NumChair; i++)
                 {
-                    for (int i = 0; i < NumChair; i++)
-                    {
-                        if (!customer[i])
-                        {
-                            AddCustomer(i, Customer.Type.Gorem);
-                        }
-                    }
+                    AddCustomer(i, Customer.Type.Gorem);
                 }
             }
         }
@@ -56,39 +50,42 @@ public class GameController : MonoBehaviour
 
     private void AddCustomer(int index, Customer.Type type)
     {
-        var instance = Instantiate(customerPrefab);
-        var rect = instance.GetComponent<RectTransform>();
-        var position = rect.transform.position;
-        var width = rect.sizeDelta.x;
-        position.x += width * index;
-        rect.transform.position = position;
-        instance.transform.SetParent(canvas.transform, false);
-        var customerScript = instance.GetComponent<Customer>();
-        customerScript.SetType(type);
-        customerScript.ResultCallback += (diffSales, diffPopularity) =>
+        if (!customer[index])
         {
-            sales += diffSales;
-            UpdateSales();
-            if (diffPopularity > 0)
+            var instance = Instantiate(customerPrefab);
+            var rect = instance.GetComponent<RectTransform>();
+            var position = rect.transform.position;
+            var width = rect.sizeDelta.x;
+            position.x += width * index;
+            rect.transform.position = position;
+            instance.transform.SetParent(canvas.transform, false);
+            var customerScript = instance.GetComponent<Customer>();
+            customerScript.SetType(type);
+            customerScript.ResultCallback += (diffSales, diffPopularity) =>
             {
-                popularity += diffPopularity * popularityUpRate;
-            }
-            else
-            {
-                popularity += diffPopularity * popularityDownRate;
-            }
-            if (popularity <= 0)
-            {
-                popularity = 0;
-                clerk.OnGameOver();
-                // @todo ゲームオーバー処理
-            }
-            else if (popularityMax < popularity)
-            {
-                popularity = popularityMax;
-            }
-        };
-        customer[index] = instance;
+                sales += diffSales;
+                UpdateSales();
+                if (diffPopularity > 0)
+                {
+                    popularity += diffPopularity * popularityUpRate;
+                }
+                else
+                {
+                    popularity += diffPopularity * popularityDownRate;
+                }
+                if (popularity <= 0)
+                {
+                    popularity = 0;
+                    clerk.OnGameOver();
+                    // @todo ゲームオーバー処理
+                }
+                else if (popularityMax < popularity)
+                {
+                    popularity = popularityMax;
+                }
+            };
+            customer[index] = instance;
+        }
     }
 
     private void UpdateSales()

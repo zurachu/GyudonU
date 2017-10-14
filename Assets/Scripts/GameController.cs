@@ -36,8 +36,7 @@ public class GameController : MonoBehaviour
         {
             int index = Random.Range(0, NumChair);
             var type = Customer.RandomType();
-            AddCustomer(index, type);
-            if (type == Customer.Type.Mai)
+            if (AddCustomer(index, type) && type == Customer.Type.Mai)
             {
                 for (int i = 0; i < NumChair; i++)
                 {
@@ -48,7 +47,7 @@ public class GameController : MonoBehaviour
         UpdatePopularityGauge();
     }
 
-    private void AddCustomer(int index, Customer.Type type)
+    private bool AddCustomer(int index, Customer.Type type)
     {
         if (!customer[index])
         {
@@ -83,7 +82,9 @@ public class GameController : MonoBehaviour
                 }
             };
             customer[index] = instance;
+            return true;
         }
+        return false;
     }
 
     private void OnGameOver()

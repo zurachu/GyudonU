@@ -37,13 +37,24 @@ public class GameController : MonoBehaviour
             int index = Random.Range(0, NumChair);
             if (!customer[index])
             {
-                AddCustomer(index);
+                var type = Customer.RandomType();
+                AddCustomer(index, type);
+                if (type == Customer.Type.Mai)
+                {
+                    for (int i = 0; i < NumChair; i++)
+                    {
+                        if (!customer[i])
+                        {
+                            AddCustomer(i, Customer.Type.Gorem);
+                        }
+                    }
+                }
             }
         }
         UpdatePopularityGauge();
     }
 
-    private void AddCustomer(int index)
+    private void AddCustomer(int index, Customer.Type type)
     {
         var instance = Instantiate(customerPrefab);
         var rect = instance.GetComponent<RectTransform>();
@@ -53,7 +64,7 @@ public class GameController : MonoBehaviour
         rect.transform.position = position;
         instance.transform.SetParent(canvas.transform, false);
         var customerScript = instance.GetComponent<Customer>();
-        customerScript.SetType(Customer.RandomType());
+        customerScript.SetType(type);
         customerScript.ResultCallback += (diffSales, diffPopularity) =>
         {
             sales += diffSales;

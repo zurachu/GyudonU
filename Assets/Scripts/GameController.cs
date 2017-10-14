@@ -107,6 +107,8 @@ public class GameController : MonoBehaviour
         }
         yield return new WaitForSeconds(5);
         blackOutAndChangeScene.SetActive(true);
+        blackOutAndChangeScene.transform.SetParent(canvas.transform.parent, false);
+        blackOutAndChangeScene.transform.SetParent(canvas.transform, false);
     }
 
     private void UpdateSales()

@@ -75,9 +75,7 @@ public class GameController : MonoBehaviour
                 }
                 if (popularity <= 0)
                 {
-                    popularity = 0;
-                    clerk.OnGameOver();
-                    // @todo ゲームオーバー処理
+                    OnGameOver();
                 }
                 else if (popularityMax < popularity)
                 {
@@ -85,6 +83,22 @@ public class GameController : MonoBehaviour
                 }
             };
             customer[index] = instance;
+        }
+    }
+
+    private void OnGameOver()
+    {
+        popularity = 0;
+        clerk.OnGameOver();
+        var moriButtons = Object.FindObjectsOfType<MoriButton>();
+        foreach (var button in moriButtons)
+        {
+            button.enabled = false;
+        }
+        var restGyudons = GameObject.FindGameObjectsWithTag("Gyudon");
+        foreach (var gyudon in restGyudons)
+        {
+            Destroy(gyudon);
         }
     }
 

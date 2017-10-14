@@ -35,6 +35,7 @@ public class Customer : MonoBehaviour
     private GameObject angryFaceMark;
     private GameObject particle;
 
+    public GameObject goremParticlePrefab;
     public Sprite namimoriFukidashi;
     public Sprite oomoriFukidashi;
     public Sprite tokumoriFukidashi;
@@ -84,6 +85,10 @@ public class Customer : MonoBehaviour
     public void SetType(Type type)
     {
         GetComponent<Image>().sprite = customerSprite[(int)type];
+        if (type == Type.Gorem)
+        {
+            Instantiate(goremParticlePrefab).transform.SetParent(transform, false);
+        }
     }
 
     public void Receive(Gyudon.MoriSize size)

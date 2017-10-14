@@ -18,8 +18,15 @@ public class Customer : MonoBehaviour
 
     static public Type RandomType()
     {
-        var numTypes = System.Enum.GetValues(typeof(Type)).Length;
-        return (Type)System.Enum.ToObject(typeof(Type), Random.Range(0, numTypes));
+        Type[] candidates = {
+            Type.Cowbell,
+            Type.JA,
+            Type.Kenta,
+            Type.Daioh,
+            Type.Mai,
+            Type.Chris,
+        };
+        return candidates[Random.Range(0, candidates.Length)];
     }
 
     private enum Result

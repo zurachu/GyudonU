@@ -89,7 +89,6 @@ public class Customer : MonoBehaviour
     public void Receive(Gyudon.MoriSize size)
     {
         StartCoroutine(SetResult((size == moriSize) ? Result.Happy : Result.Angry));
-        GetComponent<Collider2D>().enabled = false;
     }
 
     private IEnumerator SetResult(Result result)
@@ -111,6 +110,7 @@ public class Customer : MonoBehaviour
         fukidashi.enabled = false;
         ResultCallback(sales, popularity);
         timeGaugeBase.SetActive(false);
+        GetComponent<Collider2D>().enabled = false;
         yield return new WaitForSeconds(1);
         Destroy(gameObject);
     }

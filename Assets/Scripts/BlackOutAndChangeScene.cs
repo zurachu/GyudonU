@@ -7,6 +7,8 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Image))]
 public class BlackOutAndChangeScene : MonoBehaviour {
 
+    public string nextScene;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -20,7 +22,7 @@ public class BlackOutAndChangeScene : MonoBehaviour {
         image.color = color;
         if (color.a >= 1)
         {
-            SceneManager.LoadScene("InGame");
+            SceneManager.LoadScene(nextScene);
         }
 	}
 }

@@ -65,7 +65,7 @@ public class Customer : MonoBehaviour
         particle = transform.Find("Particle System").gameObject;
         time = timeMax;
         moriSize = Gyudon.RandomMoriSize();
-        Sprite[] fukidashiSprite = new Sprite[] {
+        Sprite[] fukidashiSprite = {
             namimoriFukidashi, oomoriFukidashi, tokumoriFukidashi};
         fukidashi.sprite = fukidashiSprite[(int)moriSize];
     }

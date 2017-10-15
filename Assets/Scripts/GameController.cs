@@ -33,7 +33,7 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (0 < popularity && Random.Range(0, 2000) < 100)
+        if (0 < popularity && Random.Range(0, 2000) < (100 * popularity / popularityMax) + 100)
         {
             int index = Random.Range(0, NumChair);
             var type = Customer.RandomType();

@@ -92,10 +92,19 @@ public class Customer : MonoBehaviour
     public void SetType(Type type)
     {
         GetComponent<Image>().sprite = customerSprite[(int)type];
-        if (type == Type.Gorem)
+        var timeGaugeMesh = transform.Find("TimeBase").Find("Time").GetComponent<GaugeMeshEffect>();
+        if (type == Type.Kenta)
         {
+            timeMax /= 1.5f;
+            timeGaugeMesh.maxColor = Color.yellow;
+        }
+        else if (type == Type.Gorem)
+        {
+            timeMax *= 1.5f;
+            timeGaugeMesh.maxColor = Color.cyan;
             Instantiate(goremParticlePrefab).transform.SetParent(transform, false);
         }
+        timeGaugeMesh.Refresh();
     }
 
     public void Receive(Gyudon.MoriSize size)

@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class GaugeMeshEffect : BaseMeshEffect
 {
 
-    private Color minColor = Color.red;
-    private Color maxColor = Color.green;
+    public Color minColor = Color.red;
+    public Color maxColor = Color.green;
 
     public override void ModifyMesh(VertexHelper vh)
     {

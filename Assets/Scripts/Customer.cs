@@ -14,6 +14,7 @@ public class Customer : MonoBehaviour
         Mai,
         Gorem,
         Chris,
+        UnityChan,
     };
 
     static public Type RandomType()
@@ -25,6 +26,7 @@ public class Customer : MonoBehaviour
             Type.Daioh,
             Type.Mai,
             Type.Chris,
+            Type.UnityChan,
         };
         return candidates[Random.Range(0, candidates.Length)];
     }
